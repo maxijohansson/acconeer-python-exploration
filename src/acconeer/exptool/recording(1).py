@@ -30,11 +30,6 @@ class Record:
     lib_version = attr.ib(type=Optional[str], default=None)
     timestamp = attr.ib(type=Optional[str], default=None)
 
-    #Egna
-    label = attr.ib(type=str, default=None)
-    temp = attr.ib(type=float, default=None)
-    angel = attr.ib(type=str, default=None)
-    distance = attr.ib(type=str, default=None)
     # Legacy (optional):
     legacy_processing_config_dump = attr.ib(type=Optional[str], default=None)
 
@@ -67,10 +62,7 @@ class Recorder:
         module_key = kwargs.pop("module_key", None)
         processing_config = kwargs.pop("processing_config", None)
         rss_version = kwargs.pop("rss_version", None)
-        temp = kwargs.pop("temp", None) #Egen
-        label = kwargs.pop("label", None) #Egen
-        angel = kwargs.pop("angel", None) #Egen
-        distance = kwargs.pop("distance", None) #Egenf
+
         mode = kwargs.pop("mode", sensor_config.mode)
 
         self.max_len = kwargs.pop("max_len", None)
@@ -99,10 +91,6 @@ class Recorder:
             rss_version=rss_version,
             lib_version=acconeer.exptool.__version__,
             timestamp=datetime.datetime.now().isoformat(timespec="seconds"),
-            temp=temp,
-            label=label,
-            angel=angel,
-            distance=distance,
         )
 
         self.record.data = []
@@ -143,7 +131,6 @@ def pack(record: Record) -> dict:
     packed["session_info"] = json.dumps(record.session_info)
     packed["data"] = np.array(record.data)
     packed["data_info"] = json.dumps(record.data_info)
-    packed["temp"] = record.temp
 
     packed = {k: v for k, v in packed.items() if v is not None}
 
@@ -199,7 +186,6 @@ def unpack(packed: dict) -> Record:
     kwargs["session_info"] = json.loads(packed["session_info"])
     kwargs["data"] = packed["data"]
     kwargs["data_info"] = json.loads(packed["data_info"])
-    kwargs["temp"] = packed["temp"]
 
     assert len(kwargs["data"]) == len(kwargs["data_info"])
 
