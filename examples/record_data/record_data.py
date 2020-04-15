@@ -12,8 +12,8 @@ def main():
     parser.add_argument("-l", "--label",  type=str, required=False) # Sätt till true sedan
     parser.add_argument("-o", "--output-file", type=str, required=True)
     parser.add_argument("-lim", "--limit-frames", type=int)
-    parser.add_argument("-a", "--angel", type=str, required=True)
-    parser.add_argument("-d", "--distance", type=str, required=True)
+    #parser.add_argument("-a", "--angel", type=str, required=False)
+    #parser.add_argument("-d", "--distance", type=str, required=True)
     args = parser.parse_args()
     utils.config_logging(args)
 
@@ -51,12 +51,16 @@ def main():
 
     config = configs.IQServiceConfig()
     config.sensor = args.sensors
-    config.update_rate = 150 #Ändra samplingsfrekvens här
-    config.range_interval = [0.15, 2] #Avståndsintervall i meter
+    config.update_rate = 650 #Ändra samplingsfrekvens här
+    config.range_interval = [0.06, 0.5] #Avståndsintervall i meter
+    config.profile = config.Profile.PROFILE_1
+    config.repetition_mode = config.RepetitionMode.SENSOR_DRIVEN
 
     session_info = client.setup_session(config)
     
-    recorder = recording.Recorder(sensor_config=config, session_info=session_info, temp=args.temp, label=args.label.lower(), angel=args.angel, distance=args.distance)
+    recorder = recording.Recorder(sensor_config=config, session_info=session_info, temp=args.temp, label=args.label.lower())
+#angel=args.angel,
+    #distance=args.distance
     client.start_session()
 
     interrupt_handler = utils.ExampleInterruptHandler()
