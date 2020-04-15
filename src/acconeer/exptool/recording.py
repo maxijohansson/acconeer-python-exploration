@@ -33,8 +33,8 @@ class Record:
     #Egna
     label = attr.ib(type=str, default=None)
     temp = attr.ib(type=float, default=None)
-    angel = attr.ib(type=str, default=None)
-    distance = attr.ib(type=str, default=None)
+    #angel = attr.ib(type=str, default=None)
+    #distance = attr.ib(type=str, default=None)
     # Legacy (optional):
     legacy_processing_config_dump = attr.ib(type=Optional[str], default=None)
 
@@ -69,8 +69,8 @@ class Recorder:
         rss_version = kwargs.pop("rss_version", None)
         temp = kwargs.pop("temp", None) #Egen
         label = kwargs.pop("label", None) #Egen
-        angel = kwargs.pop("angel", None) #Egen
-        distance = kwargs.pop("distance", None) #Egenf
+        #angel = kwargs.pop("angel", None) #Egen
+        #distance = kwargs.pop("distance", None) #Egen
         mode = kwargs.pop("mode", sensor_config.mode)
 
         self.max_len = kwargs.pop("max_len", None)
@@ -101,8 +101,8 @@ class Recorder:
             timestamp=datetime.datetime.now().isoformat(timespec="seconds"),
             temp=temp,
             label=label,
-            angel=angel,
-            distance=distance,
+            #angel=angel,
+            #distance=distance,
         )
 
         self.record.data = []
